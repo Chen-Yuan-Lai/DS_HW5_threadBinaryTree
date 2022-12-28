@@ -7,20 +7,21 @@ class ThBiTree
     class Node;
 
 public:
+    friend class InorderIterator;
     ThBiTree();
     void RemoveSubtree(Node *Ptr);
     ~ThBiTree();
-    bool isEmpty();
+    bool isEmpty() { return root->leftThread == true && root->rightThread == false; }
     void InsertRight(Node *s, Node *r);
     void InsertLeft(Node *s, Node *r);
-    typename ThBiTree<T>::Node *InorderSucc(Node *r);
-    template <typename U>
-    friend ostream &operator<<(ostream &os, cirChain<U> &s);
+    void Insert(T key);
+    Node *search(T key);
+    Node *InorderSucc(Node *r);
     class InorderIterator
     {
     public:
-        InorderIterator() { current = root; }
         InorderIterator(Node *startNode) : current(startNode){};
+        InorderIterator() { current = root; }
         Node *Next()
         {
             Node *temp = current->rightChild;

@@ -6,4 +6,5 @@ using namespace std;
 int main()
 {
     ThBiTree<int> x;
+    x.Insert(1);
 }
