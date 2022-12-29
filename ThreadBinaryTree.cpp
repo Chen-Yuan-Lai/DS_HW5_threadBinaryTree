@@ -37,18 +37,18 @@ typename ThBiTree<T>::Node *ThBiTree<T>::InorderSucc(Node *r)
     return i.Next();
 }
 
-template <class T>
-typename ThBiTree<T>::Node *ThBiTree<T>::search(T key)
-{
-    typename ThBiTree<T>::InorderIterator i;
-    Node *temp;
+// template <class T>
+// typename ThBiTree<T>::Node *ThBiTree<T>::search(T key)
+// {
+//     typename ThBiTree<T>::InorderIterator i;
+//     Node *temp;
 
-    do
-    {
-        temp = i.next();
-    } while (temp->data != key);
-    return temp;
-}
+//     do
+//     {
+//         temp = i.next();
+//     } while (temp->data != key);
+//     return temp;
+// }
 
 template <class T>
 void ThBiTree<T>::InsertRight(Node *s, Node *r)
