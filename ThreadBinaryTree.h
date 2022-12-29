@@ -24,7 +24,7 @@ public:
         InorderIterator() { current = root; }
         Node *Next()
         {
-            Node *ori = root;
+
             Node *temp = current->rightChild;
             if (!current->rightThread)
             {
@@ -32,7 +32,7 @@ public:
                     temp = temp->leftChild;
             }
             current = temp;
-            if (current == ori)
+            if (current == root)
                 return 0;
             else
                 return current;
