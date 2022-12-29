@@ -8,35 +8,34 @@ ThBiTree<T>::ThBiTree()
     Node *head = new Node;
     head->leftChild = head;
     head->rightChild = head;
+    head->rightThread = false;
     root = head;
 }
 
 template <class T>
 void ThBiTree<T>::RemoveSubtree(Node *Ptr)
 {
-    if (Ptr->leftThread != true && Ptr->rightThread != true)
-    {
-        if (Ptr->leftThread != true)
-            RemoveSubtree(Ptr->leftChild);
-        if (Ptr->rightThread != true)
-            RemoveSubtree(Ptr->rightChild);
-        delete Ptr;
-    }
+    if (Ptr->leftThread != true)
+        RemoveSubtree(Ptr->leftChild);
+    if (Ptr->rightThread != true)
+        RemoveSubtree(Ptr->rightChild);
+    Ptr->leftChild = 0;
+    Ptr->rightChild = 0;
+    delete Ptr;
 }
 
 template <class T>
 ThBiTree<T>::~ThBiTree()
 {
-    RemoveSubtree(root);
+    RemoveSubtree(root->leftChild);
 }
 
 template <class T>
 typename ThBiTree<T>::Node *ThBiTree<T>::InorderSucc(Node *r)
 {
     typename ThBiTree<T>::InorderIterator i(r);
-    return i.Next();
+    return i.Next(root);
 }
-
 // template <class T>
 // typename ThBiTree<T>::Node *ThBiTree<T>::search(T key)
 // {
@@ -56,8 +55,8 @@ void ThBiTree<T>::InsertRight(Node *s, Node *r)
     r->rightChild = s->rightChild;
     r->rightThread = s->rightThread;
     r->leftChild = s;
-    r->leftChild = s;
     r->leftThread = true;
+    s->rightChild = r;
     s->rightThread = false;
     if (!r->rightThread)
     {
@@ -90,17 +89,22 @@ void ThBiTree<T>::Insert(T key)
     if (isEmpty())
     {
         InsertLeft(current, temp);
+        return;
     }
-
-    while (current->leftThread != true || current->rightThread != true)
+    // move current node to the leaf
+    while (1)
     {
-        if (current->data > key)
+        if (current->data > key && current->rightThread != true)
         {
             current = current->leftChild;
         }
-        else
+        else if (current->data < key && current->rightThread != true)
         {
             current = current->rightChild;
+        }
+        else
+        {
+            break;
         }
     }
     if (current->data > key)

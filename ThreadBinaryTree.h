@@ -15,14 +15,16 @@ public:
     void InsertRight(Node *s, Node *r);
     void InsertLeft(Node *s, Node *r);
     void Insert(T key);
+    Node *getRoot() const { return root; }
     // Node *search(T key);
+    class InorderIterator;
+    InorderIterator begin() const { return InorderIterator(root); }
     Node *InorderSucc(Node *r);
     class InorderIterator
     {
     public:
         InorderIterator(Node *startNode) : current(startNode){};
-        InorderIterator() { current = root; }
-        Node *Next()
+        Node *Next(Node *ro)
         {
 
             Node *temp = current->rightChild;
@@ -32,10 +34,14 @@ public:
                     temp = temp->leftChild;
             }
             current = temp;
-            if (current == root)
+            if (current == ro)
                 return 0;
             else
                 return current;
+        }
+        T hasNext()
+        {
+            return current->data;
         }
 
     private:
@@ -48,7 +54,7 @@ private:
     public:
         Node(T element = 0) : data(element), leftChild(0),
                               rightChild(0), leftThread(true),
-                              rightThread(false){};
+                              rightThread(true){};
         T data;
         Node *leftChild;
         Node *rightChild;
